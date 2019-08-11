@@ -8,4 +8,4 @@
 На клиенте использовать ASP.NET MVC Core или WPF.
 Бэкенд - ASP.NET Web Core API или WCF. Данные можно захардкодить, плюсом будет сделать базу и показать владение EntityFramework.
 
-![https://drive.google.com/file/d/0B7zRAS2Du0h-LXh5MHZpdGtXTXhXRVdSQ2FuLUVBeDBVcDBV/view?usp=sharing](https://drive.google.com/file/d/0B7zRAS2Du0h-LXh5MHZpdGtXTXhXRVdSQ2FuLUVBeDBVcDBV/view?usp=sharing)
+![ui_layout](ui_layout.png)
