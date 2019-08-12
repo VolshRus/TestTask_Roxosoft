@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ClientApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GetOrdersListUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8080/api/orders/v1/list/get</Value>
+    </Setting>
+    <Setting Name="GetOrderDetailUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8080/api/orders/v1/detail/get</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

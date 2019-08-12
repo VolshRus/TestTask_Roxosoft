@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Roxosoft_TestTask_backend": {
+      "commandName": "Project",
+      "launchUrl": "api/orders/v1/list/get",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:8080"
+    }
+  }
+}
