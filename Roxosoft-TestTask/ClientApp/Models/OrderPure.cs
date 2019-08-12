@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClientApp.Models
 {
     /// <summary>
     /// Model that represents client's order
     /// </summary>
-    class OrderPure
+    class OrderPure: IEquatable<OrderPure>
     {
         /// <summary>
         /// Identifier 
@@ -22,5 +23,15 @@ namespace ClientApp.Models
         /// Status of order (in progress, active, etc.)
         /// </summary>
         public OrderStatus Status { get; set; }
+
+        public bool Equals(OrderPure other)
+        {
+            if (other is null)
+                return false;
+
+            return Id == other.Id && Status == other.Status;
+        }
+        public override bool Equals(object obj) => Equals(obj as OrderPure);
+        public override int GetHashCode() => (Name, Status).GetHashCode();
     }
 }

@@ -4,6 +4,7 @@ using ClientApp.Utils;
 using ClientApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,31 +33,48 @@ namespace ClientApp
 
         private async void OrdersList_Loaded(object sender, RoutedEventArgs e)
         {
-            var orders = await _requestService.FromUrl(Settings.Default.GetOrdersListUrl)
-                                              .GetAsync<ICollection<OrderPure>>();
+            //TODO: add Logging
+            try
+            {
+                var orders = await _requestService.FromUrl(Settings.Default.GetOrdersListUrl)
+                                                  .GetAsync<ICollection<OrderPure>>();
 
-            ordersList.DataContext = new OrdersListViewModel(orders); 
+                ordersList.DataContext = new OrdersListViewModel(orders);
+            }
+            catch (Exception) { }
         }
 
         private IRequestService _requestService = new RequestService();
-
-        private void OrdersList_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private async void OrdersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 1)
             {
-                var order = e.AddedItems[0] as OrderPure;
+                // TODO: addLogging
+                try
+                {
+                    var order = e.AddedItems[0] as OrderPure;
 
-                var orderDetail = await _requestService.FromUrl(Settings.Default.GetOrderDetailUrl)
-                                                 .With("id", order.Id)
-                                                 .GetAsync<OrderDetailed>();
+                    var renewOrders = await _requestService.FromUrl(Settings.Default.GetOrdersListUrl)
+                                                  .GetAsync<ICollection<OrderPure>>();
+                    var orderDetail = await _requestService.FromUrl(Settings.Default.GetOrderDetailUrl)
+                                                     .With("id", order.Id)
+                                                     .GetAsync<OrderDetailed>();
 
-                orderDetailed.DataContext = new OrderDetailViewModel(orderDetail);
-                productList.DataContext = new OrderDetailProductListViewModel(orderDetail);
+                    var currentOrders = (ordersList.DataContext as OrdersListViewModel).Orders;
+                    var oldOrders = currentOrders.Except(renewOrders).ToList();
+                    var newOrders = renewOrders.Except(currentOrders).ToList();
+                    if (oldOrders.Any() || newOrders.Any())
+                    {
+                        foreach (var difOrder in oldOrders)
+                                currentOrders.Remove(difOrder);
+                        foreach (var difOrder in newOrders)
+                                currentOrders.Add(difOrder);
+                    }
+                    orderDetailed.DataContext = new OrderDetailViewModel(orderDetail);
+                    productList.DataContext = new OrderDetailProductListViewModel(orderDetail);
+                }
+                catch (Exception) { }
             }
         }
     }
